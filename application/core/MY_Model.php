@@ -1,5 +1,12 @@
 <?php if (! defined('BASEPATH')) exit('No direct script access');
 
+/*
+ *	Name: CodeIgniter-QK-Models
+ *	Author: Ben Russell
+ *	URL: https://github.com/Ben-Russell/CodeIgniter-QK-Models
+ *	Version: 0.1
+*/
+
 class MY_Model extends CI_Model 
 {
 
