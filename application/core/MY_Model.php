@@ -298,9 +298,16 @@ class MY_Model extends CI_Model
 		{
 			foreach($filter as $command => $statements)
 			{
-				foreach($statements as $field => $value)
+				if(is_array($statements))
 				{
-					$query = $query->$command($field, $value);
+					foreach($statements as $field => $value)
+					{
+						$query = $query->$command($field, $value);
+					}
+				}
+				else
+				{
+					$query = $query->$command($statements);
 				}
 			}
 		}
