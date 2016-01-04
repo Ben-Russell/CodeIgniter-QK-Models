@@ -4,7 +4,7 @@
  *	Name: CodeIgniter-QK-Models
  *	Author: Ben Russell
  *	URL: https://github.com/Ben-Russell/CodeIgniter-QK-Models
- *	Version: 0.1
+ *	Version: 0.2
 */
 
 class MY_Model extends CI_Model 
