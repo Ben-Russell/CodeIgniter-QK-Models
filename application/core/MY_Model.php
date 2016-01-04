@@ -102,11 +102,11 @@ class MY_Model extends CI_Model
 
 		if(isset($value))
 		{
-			$this->_BindForeignKey( $this->$keyname, $this->$keyid, $value );
+			$this->_BindForeignKey( $keyname, $this->$keyid, $value );
 		}
 		else
 		{
-			$this->_BindForeignKey( $this->$keyname, $this->$keyid, $keyname::GetItemByFilter(array($keyid => $this->$keyid)) );
+			$this->_BindForeignKey( $keyname, $this->$keyid, $keyname::GetItemByFilter(array($keyid => $this->$keyid)) );
 		}
 	}
 
@@ -118,18 +118,18 @@ class MY_Model extends CI_Model
 		{
 			foreach(static::$_fkey as $keyid => $keyname)
 			{
-				$this->_BindForeignKey( $this->$keyname, $this->$keyid, $keyname::GetItemByFilter(array($keyid => $this->$keyid)) );
+				$this->_BindForeignKey( $keyname, $this->$keyid, $keyname::GetItemByFilter(array($keyid => $this->$keyid)) );
 			}
 		}
 	}
 
-	private function _BindForeignKey(&$prop, $idprop, $value, $cond = true)
+	private function _BindForeignKey($keyname, $idprop, $value, $cond = true)
 	{
 		// Binds related object instances to a property based on a foreign key
 
-		if(!isset($prop) && isset($idprop) && $idprop != null && $cond)
+		if(!isset($this->$keyname) && isset($idprop) && $idprop != null && $cond)
 		{
-			$prop = $value;
+			$this->$keyname = $value;
 		}
 	}
 
