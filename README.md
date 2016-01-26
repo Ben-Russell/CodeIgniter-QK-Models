@@ -16,12 +16,12 @@ To use a QK Model, first define a model with properties matching their column na
 
 	class User extends MY_Model
 	{
-		public UserID;
-		public UserName;
-		public Name;
-		public Email;
-		public Age;
-		public IsAdmin;
+		public $UserID;
+		public $UserName;
+		public $Name;
+		public $Email;
+		public $Age;
+		public $IsAdmin;
 
 
 		protected static $_table = "AppDB.Users";
@@ -91,11 +91,11 @@ These methods will insert a new model record in the database. After an Insert is
 	// Create a new instance of a model
 	$newuser = new User();
 
-	$newuser.UserName = "MyUserName18";
-	$newuser.Name = "MyName";
-	$newuser.Email = "MyEmail@email.com";
-	$newuser.Age = 1;
-	$newuser.IsAdmin = false;
+	$newuser->UserName = "MyUserName18";
+	$newuser->Name = "MyName";
+	$newuser->Email = "MyEmail@email.com";
+	$newuser->Age = 1;
+	$newuser->IsAdmin = false;
 
 
 	// Insert the new instance into the database
@@ -114,8 +114,8 @@ When a model is selected, it will automatically select/bind any related objects.
 
 	class Supplier extends MY_Model
 	{
-		public SupplierID;
-		public Name;
+		public $SupplierID;
+		public $Name;
 
 		protected static $_table = "AppDB.Suppliers";
 		protected static $_key = "SupplierID"
@@ -123,11 +123,11 @@ When a model is selected, it will automatically select/bind any related objects.
 
 	class Product extends MY_Model
 	{
-		public ProductID;
-		public Name;
-		public SupplierID;
+		public $ProductID;
+		public $Name;
+		public $SupplierID;
 
-		public Supplier;
+		public $Supplier;
 
 		protected static $_table = "AppDB.Products";
 		protected static $_key = "ProductID"
@@ -140,4 +140,4 @@ When a model is selected, it will automatically select/bind any related objects.
 	$product = Product::GetItemByFilter(array("Name" => "Super Gizmo"));
 
 	// Supplier can be accessed
-	$supplier = Product.Supplier;
+	$supplier = Product->Supplier;
