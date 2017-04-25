@@ -4,10 +4,10 @@
  *	Name: CodeIgniter-QK-Models
  *	Author: Ben Russell
  *	URL: https://github.com/Ben-Russell/CodeIgniter-QK-Models
- *	Version: 0.3
+ *	Version: 0.4
 */
 
-class MY_Model extends CI_Model 
+class MY_Model extends CI_Model
 {
 
 	protected static $db;
@@ -19,7 +19,7 @@ class MY_Model extends CI_Model
 	protected static $_fkey;
 
 
-	function __construct() 
+	function __construct()
 	{
 		parent::__construct();
 
@@ -67,7 +67,7 @@ class MY_Model extends CI_Model
 
 	protected function __bindProperties($data, $props = null)
 	{
-		// Binds property values to the object's properties. 
+		// Binds property values to the object's properties.
 		// Can take an array of ($propname => $dataname) to bind select properties, and differently named properties
 
 		if($props != null)
@@ -102,11 +102,11 @@ class MY_Model extends CI_Model
 
 		if(isset($value))
 		{
-			$this->_BindForeignKey( $keyname, $this->$keyid, $value );
+			$this->_BindForeignKey( $this->$keyname, $this->$keyid, $value );
 		}
 		else
 		{
-			$this->_BindForeignKey( $keyname, $this->$keyid, $keyname::GetItemByFilter(array($keyid => $this->$keyid)) );
+			$this->_BindForeignKey( $this->$keyname, $this->$keyid, $keyname::GetItemByFilter(array($keyid => $this->$keyid)) );
 		}
 	}
 
@@ -118,18 +118,18 @@ class MY_Model extends CI_Model
 		{
 			foreach(static::$_fkey as $keyid => $keyname)
 			{
-				$this->_BindForeignKey( $keyname, $this->$keyid, $keyname::GetItemByFilter(array($keyid => $this->$keyid)) );
+				$this->_BindForeignKey( $this->$keyname, $this->$keyid, $keyname::GetItemByFilter(array($keyid => $this->$keyid)) );
 			}
 		}
 	}
 
-	private function _BindForeignKey($keyname, $idprop, $value, $cond = true)
+	private function _BindForeignKey(&$prop, $idprop, $value, $cond = true)
 	{
 		// Binds related object instances to a property based on a foreign key
 
-		if(!isset($this->$keyname) && isset($idprop) && $idprop != null && $cond)
+		if(!isset($prop) && isset($idprop) && $idprop != null && $cond)
 		{
-			$this->$keyname = $value;
+			$prop = $value;
 		}
 	}
 
@@ -218,8 +218,8 @@ class MY_Model extends CI_Model
 
 		return $instances;
 	}
-	
-		public static function GetAllItems()
+
+	public static function GetAllItems()
 	{
 		return static::GetItemsByFilter();
 	}
@@ -233,7 +233,7 @@ class MY_Model extends CI_Model
 	}
 
 	public static function GetItem($keyid)
-	{	
+	{
 		// Will get item by primary key value
 		return static::GetItemByFilter(array(static::$_key => $keyid));
 	}
@@ -253,7 +253,7 @@ class MY_Model extends CI_Model
 		// Will return a single raw array from db
 
 		$filter = static::_CombineFilters($filter, $other);
-		
+
 		$query = static::$db->from(static::$_table);
 		$query = static::_InterpretFilter($query, $filter)
 					->limit(1)
@@ -272,7 +272,7 @@ class MY_Model extends CI_Model
 
 		return static::_createFromDataList($results);
 	}
-	
+
 	public static function UIGetItemsByFilter($filter = null, $other = null)
 	{
 		// Will return a set of class instances based on the passed filters
@@ -376,7 +376,7 @@ class MY_Model extends CI_Model
 			$key = static::$_key;
 			static::DeleteItemByFilter(array($key => $item->$key));
 		}
-		
+
 	}
 
 	public static function DeleteItems($items)
@@ -384,7 +384,7 @@ class MY_Model extends CI_Model
 		foreach($items as $item)
 		{
 			static::DeleteItem($item);
-		}		
+		}
 	}
 
 	public static function DeleteItemByFilter($filter = null, $other = null)
@@ -398,8 +398,8 @@ class MY_Model extends CI_Model
 	public static function UpdateItem($item)
 	{
 		$key = static::$_key;
-		$query = static::$db->update(static::$_table, $item, array($key => $item->$key));		
-		
+		$query = static::$db->update(static::$_table, $item, array($key => $item->$key));
+
 	}
 	public static function UpdateItems($items)
 	{
