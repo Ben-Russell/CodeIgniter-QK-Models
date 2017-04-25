@@ -4,7 +4,7 @@
  *	Name: CodeIgniter-QK-Models
  *	Author: Ben Russell
  *	URL: https://github.com/Ben-Russell/CodeIgniter-QK-Models
- *	Version: 0.2
+ *	Version: 0.3
 */
 
 class MY_Model extends CI_Model 
@@ -218,6 +218,25 @@ class MY_Model extends CI_Model
 
 		return $instances;
 	}
+	
+		public static function GetAllItems()
+	{
+		return static::GetItemsByFilter();
+	}
+
+	public static function GetFirstItem()
+	{
+		// Some php versions don't like accessing arrays immediately.
+		// So this purposely uses a variable.
+		$items = static::GetAllItems();
+		return $items[0];
+	}
+
+	public static function GetItem($keyid)
+	{	
+		// Will get item by primary key value
+		return static::GetItemByFilter(array(static::$_key => $keyid));
+	}
 
 	public static function GetItemByFilter($filter = null, $other = null)
 	{
@@ -252,6 +271,23 @@ class MY_Model extends CI_Model
 		$results = static::GetRawItemsByFilter($filter, $other);
 
 		return static::_createFromDataList($results);
+	}
+	
+	public static function UIGetItemsByFilter($filter = null, $other = null)
+	{
+		// Will return a set of class instances based on the passed filters
+		// UI makes it disable protect_indentifiers (Will return to previous state after)
+		// One use for this is you can do: 	array('order_by' => array('-`Field`' => 'asc'))
+		// To force null values to the end
+
+		$previousstate = static::$db->_protect_identifiers;
+		static::$db->_protect_identifiers = false;
+
+		$results = static::GetRawItemsByFilter($filter, $other);
+
+		return static::_createFromDataList($results);
+
+		static::$db->_protect_identifiers = $previousstate;
 	}
 
 	public static function GetRawItemsByFilter($filter = null, $other = null)
